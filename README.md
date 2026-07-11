@@ -37,9 +37,9 @@ FastApi/
    ```
 
 3. Install the required dependencies
-   ```bash
-   pip install fastapi uvicorn
-   ```
+  ```bash
+  pip install -r requirements.txt
+  ```
 
 ## ▶️ Run the Application
 
@@ -67,7 +67,7 @@ Then open your browser or API client at:
 
 ```json
 {
-  "message": "Now i am a Python Developer."
+  "message": "Now I am a Python Developer."
 }
 ```
 

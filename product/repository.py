@@ -1,8 +1,8 @@
-from product.model import Products
+from product.model import PRODUCTS
 
 
 class ProductRepository:
-    products = Products.products
+    products = PRODUCTS
 
     @classmethod
     def index(cls):

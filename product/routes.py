@@ -1,5 +1,6 @@
+from fastapi import APIRouter, BackgroundTasks, File, UploadFile, Form
 from product.service import ProductService
-from fastapi import APIRouter
+from product.model import Product
 
 
 router = APIRouter(
@@ -19,12 +20,27 @@ def get_product_by_id(id: int):
 
 # store product
 @router.post("/")
-def store_product(product: dict):
-    return ProductService.create(product)
+def store_product(
+    name: str = Form(...),
+    price: float = Form(...),
+    image: UploadFile | None = File(None),
+    background_tasks: BackgroundTasks = None,
+):
+    image_name = None
+    if image:
+        image_name = image.filename
+        upload_dir = "uploads"
+        import os
+        os.makedirs(upload_dir, exist_ok=True)
+        with open(f"{upload_dir}/{image_name}", "wb") as f:
+            f.write(image.file.read())
+
+    product = Product(id=0, name=name, price=price, image=image_name)
+    return ProductService.create(product, background_tasks)
 
 # update product
 @router.put("/{id}")
-def update_product(id: int, product: dict):
+def update_product(id: int, product: Product):
     return ProductService.update(id, product)
 
 # delete product
